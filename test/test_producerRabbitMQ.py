@@ -18,13 +18,15 @@ from time import time
 
 output_path = os.path.join(PYTHON_PATH,"test/output")
 
+# connection = pika.BlockingConnection(
+#     pika.ConnectionParameters(host='localhost'))
+credentials = pika.PlainCredentials('phuc', '1234')
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='localhost'))
+    pika.ConnectionParameters('192.168.1.6',5672, '/',credentials))
 channel = connection.channel()
 
 channel.queue_declare(queue='hello')
-count = 0
-checktime = 0
+
 for filepath in glob.glob(os.path.join(output_path,'*.jpg')):
     print(filepath)
     with open(filepath, "rb") as img_file:
