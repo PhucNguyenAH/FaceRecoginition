@@ -5,6 +5,7 @@ import os
 import glob
 import base64
 from time import time
+from PIL import Image
 
 # connection = pika.BlockingConnection(
 #     pika.ConnectionParameters(host='localhost'))
@@ -27,14 +28,16 @@ channel = connection.channel()
 
 channel.queue_declare(queue='hello')
 
-for filepath in glob.glob(os.path.join(output_path,'*.jpg')):
+for filepath in sorted(glob.glob(os.path.join(output_path,'*.jpg')), key=os.path.getmtime):
     print(filepath)
+    image_file = Image.open(filepath)
     with open(filepath, "rb") as img_file:
         encoded_string = base64.b64encode(img_file.read()).decode('utf-8')
     log = {
             "userId": "phuc",
             "photo": encoded_string,
-            "time": time()
+            "time": time(),
+            "size": str(len(image_file.fp.read()))
         }
 
     msg = json.dumps(log)
