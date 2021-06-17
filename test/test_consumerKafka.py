@@ -31,12 +31,12 @@ import pandas as pd
 from datetime import datetime
 import os
 
-COLUMN_NAMES = ['time', 'average', 'size']
-df = pd.DataFrame(columns=COLUMN_NAMES)
-df.to_csv(os.path.join(PYTHON_PATH,'kafka.csv'), index=False)
 
 totaltime = 0
 count = 0
+time_out = []
+average_out = []
+size_out = []
 
 
 def stats_cb(stats_json_str):
@@ -125,11 +125,12 @@ if __name__ == '__main__':
                 data = json.loads(my_json)
                 totaltime += checktime-data["time"]
                 count += 1
-                
-                df = pd.read_csv(os.path.join(PYTHON_PATH,'kafka.csv'))
-                new_data = {"time": checktime-data["time"], "average": totaltime/count, "size": data["size"]}
-                df = df.append(data, ignore_index=True)
-                df.to_csv(os.path.join(PYTHON_PATH,'kafka.csv'), index=False)
+                time_out.append(checktime-data["time"])
+                average_out.append(totaltime/count)
+                size_out.append(data["size"])
+                dictionary = {'time': time_out, 'average': average_out, 'size': size_out}
+                dataframe = pd.DataFrame(dictionary) 
+                dataframe.to_csv(os.path.join(PYTHON_PATH,'kafka.csv'))
                 
                 
 
