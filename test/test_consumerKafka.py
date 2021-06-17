@@ -66,7 +66,8 @@ if __name__ == '__main__':
     # Consumer configuration
     # See https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
     conf = {'bootstrap.servers': broker, 'group.id': group, 'session.timeout.ms': 6000,
-            'auto.offset.reset': 'smallest'}
+            'auto.offset.reset': 'smallest', 'fetch.message.max.bytes': 15728640,
+                'message.max.bytes': 15728640}
 
     # Check to see if -T option exists
     for opt in optlist:

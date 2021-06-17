@@ -83,8 +83,7 @@ from time import time
 from datetime import datetime
 
 
-
-CHECKED_PATH = os.path.join(PYTHON_PATH, "ailibs_data/log/image/chau.jpg")
+output_path = os.path.join(PYTHON_PATH,"test/output")
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
@@ -97,7 +96,7 @@ if __name__ == '__main__':
 
     # Producer configuration
     # See https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
-    conf = {'bootstrap.servers': broker}
+    conf = {'bootstrap.servers': broker, 'message.max.bytes': 15728640}
 
     # Create Producer instance
     p = Producer(**conf)
