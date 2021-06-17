@@ -18,21 +18,25 @@
 #
 # Example high-level Kafka 0.9 balanced Consumer
 #
+from __init__ import PYTHON_PATH
+
 from confluent_kafka import Consumer, KafkaException
 import sys
 import getopt
 import json
 import logging
 from pprint import pformat
-import time
+from time import time
 import pandas as pd
 from datetime import datetime
-import pytz
+import os
 
-# COLUMN_NAMES = ['semester', 'groupCode', 'subjectID',
-#                 'teacherID', 'startTime', 'endTime', 'deviceID', 'id']
-# df = pd.DataFrame(columns=COLUMN_NAMES)
-# df.to_csv('schedule.csv', index=False)
+COLUMN_NAMES = ['time', 'average', 'size']
+df = pd.DataFrame(columns=COLUMN_NAMES)
+df.to_csv(os.path.join(PYTHON_PATH,'kafka.csv'), index=False)
+
+totaltime = 0
+count = 0
 
 
 def stats_cb(stats_json_str):
@@ -114,16 +118,19 @@ if __name__ == '__main__':
                 sys.stderr.write('%% %s [%d] at offset %d with key %s:\n' %
                                  (msg.topic(), msg.partition(), msg.offset(),
                                   str(msg.key())))
-                print(msg.value())
+                checktime = time()
+                
                 my_json = msg.value().decode('utf8').replace("'", '"')
                 data = json.loads(my_json)
-                print(data)
+                totaltime += checktime-data["time"]
+                count += 1
                 
-                # tz1 = pytz.timezone('GMT')
-                # now = pytz.UTC.localize(utc_time)
-                # now_tz = now.astimezone(tz1)
-                # print(now_tz)
-                # print(now_tz.strftime('%s'))
+                df = pd.read_csv(os.path.join(PYTHON_PATH,'kafka.csv'))
+                new_data = {"time": checktime-data["time"], "average": totaltime/count, "size": data["size"]}
+                df = df.append(data, ignore_index=True)
+                df.to_csv(os.path.join(PYTHON_PATH,'kafka.csv'), index=False)
+                
+                
 
     except KeyboardInterrupt:
         sys.stderr.write('%% Aborted by user\n')
