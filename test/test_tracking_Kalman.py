@@ -23,7 +23,7 @@ Framecount = 0
 # init tracker
 tracker = FaceTracker(max_age=50, log=LOG_TIME)  # create instance of the SORT tracker
 # Tracking
-output_path = os.path.join(PYTHON_PATH,"test/output")
+output_path = os.path.join(PYTHON_PATH,"test/output/tracking")
 directoryname = os.path.join(output_path, "vid")
 detect_interval = 1
 colours = np.random.rand(32, 3)
@@ -46,10 +46,15 @@ while(True):
     img_size = np.asarray(frame.shape)[0:2]
     final_people = np.array(z_box)
     trackers = tracker.update(final_people, img_size)
-
     for d in trackers:
+        Framecount += 1
+        track_frame = []
         d = d.astype(np.int32)
         cv2.rectangle(frame, (d[1], d[0]), (d[3], d[2]), colours[d[4] % 32, :] * 255, 3)
+        track_frame = frame[d[0]:d[2],d[1]:d[3]]
+        print(track_frame.shape[1])
+        if track_frame.shape[1] != 0:
+            cv2.imwrite(os.path.join(output_path,f"{Framecount}.jpg"),track_frame)
         if final_people != []:
             cv2.putText(frame, 'ID : %d  DETECT' % (d[4]), (d[1], d[0]),
                         cv2.FONT_HERSHEY_SIMPLEX,
@@ -64,12 +69,11 @@ while(True):
 
     # Display the resulting frame
     cv2.imshow('frame', frame)
-    cv2.imwrite(os.path.join(output_path,f"{Framecount}.jpg"),frame)
-    Framecount += 1
+    
     # the 'q' button is set as the
     # quitting button you may use any
     # desired button of your choice
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord('q') or Framecount>5000:
         break
   
 # After the loop release the cap object
