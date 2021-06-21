@@ -96,7 +96,7 @@ if __name__ == '__main__':
 
     # Producer configuration
     # See https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
-    conf = {'bootstrap.servers': broker, 'message.max.bytes': 15728640}
+    conf = {'bootstrap.servers': broker, 'message.max.bytes': 15728640, "buffer_memory":5368706371}
 
     # Create Producer instance
     p = Producer(**conf)
