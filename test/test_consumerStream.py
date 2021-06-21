@@ -32,6 +32,7 @@ from datetime import datetime
 import os
 import base64
 import cv2
+import numpy as np
 
 
 totaltime = 0
@@ -138,8 +139,10 @@ if __name__ == '__main__':
                 dictionary = {'time': time_out, 'average': average_out}
                 dataframe = pd.DataFrame(dictionary) 
                 dataframe.to_csv(os.path.join(PYTHON_PATH,'kafka2.csv'))
-                image = base64.b64decode(data[BASE64]).decode("utf-8")
-                cv2.imwrite(os.path.join(output_path,f"image{count}.jpg"), image)
+                image = base64.b64decode(data[BASE64])
+                img_array = np.fromstring(image,np.uint8) # convert np sequence
+                img=cv2.imdecode(img_array,cv2.COLOR_BGR2RGB)
+                cv2.imwrite(os.path.join(output_path,f"image{count}.jpg"), img)
                 
     except KeyboardInterrupt:
         sys.stderr.write('%% Aborted by user\n')
