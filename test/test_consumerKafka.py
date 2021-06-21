@@ -130,12 +130,9 @@ if __name__ == '__main__':
                 size_out.append(data["size"])
                 dictionary = {'time': time_out, 'average': average_out, 'size': size_out}
                 dataframe = pd.DataFrame(dictionary) 
-<<<<<<< HEAD
                 print(time_out[-1])
                 dataframe.to_csv(os.path.join(PYTHON_PATH,'kafkaSSD.csv'))
-=======
-                dataframe.to_csv(os.path.join(PYTHON_PATH,'kafka2.csv'))
->>>>>>> 1d287fd3649504197d93db6c9e220cafdc3e3aa8
+
                 
                 
 
