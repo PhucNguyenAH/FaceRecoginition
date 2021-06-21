@@ -24,13 +24,13 @@ from datetime import datetime
 from utils.CONFIG import config
 mCONFIG = config()
 
-input_path = os.path.join(PYTHON_PATH,"test/video/test1.mp4")
+input_path = os.path.join(PYTHON_PATH,"test/video/test2.mp4")
 
 cam = cv2.VideoCapture(input_path)
 LOG_TIME=True
 
 humanDetector = HumanDetector(log=LOG_TIME)
-
+Framecount=0
 while(True): 
     # Capture the video frame
     # by frame
@@ -41,14 +41,16 @@ while(True):
 
     z_box = humanDetector.get_localization(frame)
     for i in range(len(z_box)):
-        human_frame = helpers.draw_box_label("test",frame, z_box[i], box_color=(255, 0, 0))
+        temp = frame.copy()
+        human_frame = helpers.draw_box_label("test",temp, z_box[i], box_color=(255, 0, 0))
         detect_frame = frame[z_box[i][0]:z_box[i][2],z_box[i][1]:z_box[i][3]]
+        # plt.imshow(human_frame)
         mCONFIG.stream(detect_frame)
-        plt.imshow(human_frame)
-    plt.show()
+        
+    # plt.show()
     # Display the resulting frame
     cv2.imshow('frame', human_frame)
-    # cv2.imwrite(os.path.join(PYTHON_PATH,f"{Framecount}.jpg"),img1)
+    # cv2.imwrite(os.path.join(PYTHON_PATH,f"{Framecount}.jpg"),detect_frame)
 
     # the 'q' button is set as the
     # quitting button you may use any

@@ -74,12 +74,14 @@ class config():
             print('Assignment:', partitions)  
 
     def stream(self, image):
-        encoded_string = base64.b64encode(image).decode('utf-8')
+        # Convert captured image to JPG
+        retval, buffer = cv2.imencode('.jpg', image)
+        encoded_string = base64.b64encode(buffer).decode('utf-8')
         log = {CAMERAID: 1, STARTTIME: time(), BASE64: encoded_string}
         msg = json.dumps(log)
         config.producer_stream.produce(TOPIC_CAMERA, msg, callback=delivery_callback)
         config.producer_stream.poll(0)
-        sys.stderr.write('%% Waiting for %d deliveries\n' % len(config.producer_attendance))
+        sys.stderr.write('%% Waiting for %d deliveries\n' % len(config.producer_stream))
         config.producer_stream.flush()
 
     
