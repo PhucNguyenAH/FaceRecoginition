@@ -83,7 +83,7 @@ from time import time
 from datetime import datetime
 
 
-output_path = os.path.join(PYTHON_PATH,"test/output")
+output_path = os.path.join(PYTHON_PATH,"test/output/detectSSD/1920x1080")
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
