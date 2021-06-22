@@ -18,8 +18,8 @@ image = cv2.imread(path)
 print(path, image.shape)
 
 detector = FaceDetector(log=True)
-# source = 0
-source = os.path.join(PYTHON_PATH, "test", "video", "test1.mp4")
+source = 0
+# source = os.path.join(PYTHON_PATH, "test", "video", "test1.mp4")
 cam = cv2.VideoCapture(source)
 
 
@@ -35,35 +35,35 @@ cam = cv2.VideoCapture(source)
 
 frameCount = 0
 
-# while True:
-#     ret, frame = cam.read()
-#     # frame = cv2.flip(frame,1)
+while True:
+    ret, frame = cam.read()
+    # frame = cv2.flip(frame,1)
 
-#     dets = detector.detect(frame)
-#     for det in dets:
-#         frameCount += 1
-#         [left, top, right, bottom] = FaceDetector.get_position(det)
-#         cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
-#         # face_frame = frame[top:bottom, left:right]
-#         # cv2.imwrite(os.path.join(output_path,f"{frameCount}.jpg"),face_frame)
-#     cv2.imshow('frame', frame)
-    
-#     if cv2.waitKey(1) & 0xFF == ord('q'):
-#         break
-
-# # After the loop release the cap object
-# cam.release()
-# # Destroy all the windows
-# cv2.destroyAllWindows()
-
-
-input_path = os.path.join(PYTHON_PATH,"test/output/tracking")
-for filepath in sorted(glob.glob(os.path.join(input_path,'*.jpg')), key=os.path.getmtime):
-    image = cv2.imread(filepath)
-    dets = detector.detect(image)
-    # print(dets, type(dets))
-    for d in dets:
-        # frameCount += 1
-        [left, top, right, bottom] = FaceDetector.get_position(d)
-        # face_frame = image[top:bottom, left:right]
+    dets = detector.detect(frame)
+    for det in dets:
+        frameCount += 1
+        [left, top, right, bottom] = FaceDetector.get_position(det)
+        cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
+        # face_frame = frame[top:bottom, left:right]
         # cv2.imwrite(os.path.join(output_path,f"{frameCount}.jpg"),face_frame)
+    cv2.imshow('frame', frame)
+    
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# After the loop release the cap object
+cam.release()
+# Destroy all the windows
+cv2.destroyAllWindows()
+
+
+# input_path = os.path.join(PYTHON_PATH,"test/output/tracking")
+# for filepath in sorted(glob.glob(os.path.join(input_path,'*.jpg')), key=os.path.getmtime):
+#     image = cv2.imread(filepath)
+#     dets = detector.detect(image)
+#     # print(dets, type(dets))
+#     for d in dets:
+#         # frameCount += 1
+#         [left, top, right, bottom] = FaceDetector.get_position(d)
+#         # face_frame = image[top:bottom, left:right]
+#         # cv2.imwrite(os.path.join(output_path,f"{frameCount}.jpg"),face_frame)
