@@ -1,12 +1,14 @@
 from flask import Flask, render_template, Response
-from stream import streamer
+from stream import Streamer
+
+STREAMER = Streamer()
 
 app = Flask(__name__)
 
 def gen():
 
   while True:
-      stream = streamer()
+      stream = STREAMER.streamer()
       yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + stream + b'\r\n\r\n')
 
 @app.route('/')

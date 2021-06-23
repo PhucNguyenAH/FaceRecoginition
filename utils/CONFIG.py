@@ -76,7 +76,7 @@ class config():
     def stream(self, image):
         # Convert captured image to JPG
         retval, buffer = cv2.imencode('.jpg', image)
-        encoded_string = base64.b64encode(buffer)
+        encoded_string = base64.b64encode(buffer).decode('utf-8')
         log = {CAMERAID: 1, STARTTIME: time(), BASE64: encoded_string}
         msg = json.dumps(log)
         config.producer_stream.produce(TOPIC_CAMERA, msg, callback=delivery_callback)
