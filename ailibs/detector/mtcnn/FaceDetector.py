@@ -2,8 +2,9 @@ from ailibs.__init__ import timeit
 
 from __init__ import PYTHON_PATH
 import tensorflow.compat.v1 as tf
-from utils.align.detect_face as detect_face
+import utils.align.detect_face as detect_face
 import dlib
+import os
 
 
 tf.disable_v2_behavior()
@@ -27,6 +28,9 @@ class FaceDetector():
 
         """
         self.log = kwargs.get('log', False)
+        # self.__det1 = kwargs.get('det1')
+        # self.__det1 = kwargs.get('det2')
+        # self.__det3 = kwargs.get('det3')
         with tf.Graph().as_default():
   
             sess = tf.Session()
@@ -61,7 +65,7 @@ class FaceDetector():
         results = []
         bounding_boxes, points = detect_face.detect_face(image, minsize, self.pnet_fun, self.rnet_fun, self.onet_fun, threshold, factor)
         for box in bounding_boxes:
-            (x, y, x1, y1) = box.astype("int")
+            (x, y, x1, y1) = (int(box[0]), int(box[1]), int(box[2]), int(box[3]))
             rec = dlib.rectangle(x, y, x1, y1)
             results.append(rec)
         return results

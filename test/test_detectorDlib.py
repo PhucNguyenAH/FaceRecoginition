@@ -18,8 +18,8 @@ image = cv2.imread(path)
 print(path, image.shape)
 
 detector = FaceDetector(log=True)
-source = 0
-# source = os.path.join(PYTHON_PATH, "test", "video", "test1.mp4")
+# source = 0
+source = os.path.join(PYTHON_PATH, "test", "video", "test1.mp4")
 cam = cv2.VideoCapture(source)
 
 

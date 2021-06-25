@@ -8,20 +8,17 @@ import glob
 
 print('PYTHON_PATH', PYTHON_PATH)
 
-from ailibs.detector.dnn.FaceDetector import FaceDetector
+from ailibs.detector.mtcnn.FaceDetector import FaceDetector
 
 path = os.path.join(PYTHON_PATH, "test", "image", "4.jpg")
-output_path = os.path.join(PYTHON_PATH,"test/output/dnn")
+output_path = os.path.join(PYTHON_PATH,"test/output/mtcnn")
 
 LOG_TIME = True
 
 image = cv2.imread(path)
 print(path, image.shape)
 
-deploy_path = os.path.join(PYTHON_PATH, "ailibs_data", "detector", "dnn", "deploy.prototxt")
-model_path = os.path.join(PYTHON_PATH, "ailibs_data", "detector", "dnn", "opencv_face_detector.caffemodel")
-
-detector = FaceDetector(log=True, detector_model=model_path, detector_deploy=deploy_path)
+detector = FaceDetector(log=True)
 
 # source = 0
 source = os.path.join(PYTHON_PATH, "test", "video", "test1.mp4")
@@ -37,7 +34,7 @@ cam = cv2.VideoCapture(source)
 # cv2.imshow("image", image)
 # cv2.waitKey(0)
 
-# frameCount = 0
+frameCount = 0
 
 while True:
     ret, frame = cam.read()
@@ -66,10 +63,10 @@ cv2.destroyAllWindows()
 #     dets = detector.detect(image)
 #     # print(dets, type(dets))
 #     for d in dets:
-#         # frameCount += 1
+#         frameCount += 1
 #         [left, top, right, bottom] = FaceDetector.get_position(d)
 #         face_frame = image[top:bottom, left:right]
-#         # cv2.imwrite(os.path.join(output_path,f"{frameCount}.jpg"),face_frame)
+#         cv2.imwrite(os.path.join(output_path,f"{frameCount}.jpg"),face_frame)
 #         # cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
 
 #     # cv2.imshow("image", image)

@@ -50,22 +50,22 @@ while(True):
         Framecount += 1
         track_frame = []
         d = d.astype(np.int32)
-        cv2.rectangle(frame, (d[1], d[0]), (d[3], d[2]), colours[d[4] % 32, :] * 255, 3)
+        # cv2.rectangle(frame, (d[1], d[0]), (d[3], d[2]), colours[d[4] % 32, :] * 255, 3)
         track_frame = frame[d[0]:d[2],d[1]:d[3]]
         print(track_frame.shape[1])
         if track_frame.shape[1] != 0:
             cv2.imwrite(os.path.join(output_path,f"{Framecount}.jpg"),track_frame)
-        if final_people != []:
-            cv2.putText(frame, 'ID : %d  DETECT' % (d[4]), (d[1], d[0]),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.75,
-                        colours[d[4] % 32, :] * 255, 2)
-            cv2.putText(frame, 'DETECTOR', (5, 45), cv2.FONT_HERSHEY_SIMPLEX, 0.75,
-                        (1, 1, 1), 2)
-        else:
-            cv2.putText(frame, 'ID : %d' % (d[4]), (d[1], d[0]), cv2.FONT_HERSHEY_SIMPLEX,
-                        0.75,
-                        colours[d[4] % 32, :] * 255, 2)
+        # if final_people != []:
+        #     cv2.putText(frame, 'ID : %d  DETECT' % (d[4]), (d[1], d[0]),
+        #                 cv2.FONT_HERSHEY_SIMPLEX,
+        #                 0.75,
+        #                 colours[d[4] % 32, :] * 255, 2)
+        #     cv2.putText(frame, 'DETECTOR', (5, 45), cv2.FONT_HERSHEY_SIMPLEX, 0.75,
+        #                 (1, 1, 1), 2)
+        # else:
+        #     cv2.putText(frame, 'ID : %d' % (d[4]), (d[1], d[0]), cv2.FONT_HERSHEY_SIMPLEX,
+        #                 0.75,
+        #                 colours[d[4] % 32, :] * 255, 2)
 
     # Display the resulting frame
     cv2.imshow('frame', frame)
