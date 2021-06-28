@@ -10,17 +10,17 @@ print('PYTHON_PATH', PYTHON_PATH)
 
 from ailibs.detector.retinaface.FaceDetector import FaceDetector
 
-model_path = os.path.join(PYTHON_PATH, "ailibs_data", "retinaface")
-
+model_path = os.path.join(PYTHON_PATH, "ailibs_data", "detector", "retinaface", "retinaface")
+ 
 path = os.path.join(PYTHON_PATH, "test", "image", "4.jpg")
-output_path = os.path.join(PYTHON_PATH,"test/output/mtcnn")
+output_path = os.path.join(PYTHON_PATH,"test/output/retinaface")
 
 LOG_TIME = True
 
 image = cv2.imread(path)
 print(path, image.shape)
 
-detector = FaceDetector(log=True)
+detector = FaceDetector(detector_model=model_path,log=True)
 
 # source = 0
 source = os.path.join(PYTHON_PATH, "test", "video", "test1.mp4")

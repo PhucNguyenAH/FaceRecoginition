@@ -1,5 +1,6 @@
+from __init__ import PYTHON_PATH
 import numpy as np
-from ..cython.bbox import bbox_overlaps_cython
+from utils.rcnn.cython.bbox import bbox_overlaps_cython
 #from rcnn.config import config
 
 
