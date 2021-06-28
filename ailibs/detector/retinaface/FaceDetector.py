@@ -63,7 +63,8 @@ class FaceDetector():
                                                   do_flip=flip)
         if faces is not None:
             for i in range(faces.shape[0]):
-                (x, y, x1, y1) = faces[i].astype(np.int)
+                box = faces[i].astype(np.int)
+                (x, y, x1, y1) = (box[0], box[1], box[2], box[3])
                 rec = dlib.rectangle(x, y, x1, y1)
                 results.append(rec)
         return results
