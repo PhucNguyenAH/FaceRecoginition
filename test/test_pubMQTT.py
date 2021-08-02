@@ -1,12 +1,13 @@
 import random
 import time
+import json
 
 from paho.mqtt import client as mqtt_client
 
 
 broker = 'broker.emqx.io'
 port = 1883
-topic = "python/mqtt"
+topic = "python/mqtt1"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 username = 'emqx'
@@ -30,7 +31,9 @@ def publish(client):
     msg_count = 0
     while True:
         time.sleep(1)
-        msg = f"messages: {msg_count}"
+        # msg = f"messages: {msg_count}"
+        msg = {"Serial": "178b2f0d47581fa0", "Image": "https://beta-s3.fcam.vn/beta-s3-03/001_178b2f0d47581fa0_210725181150.jpeg?AWSAccessKeyId=def8c539fe094746b2791dfca2d9441c&Signature=SKrJ70pCEs4juEnm5PTIodtIkeM%3D&Expires=1629803512", "StartTime": "20210725181150"}
+        msg = json.dumps(msg)
         result = client.publish(topic, msg)
         # result: [0, 1]
         status = result[0]
